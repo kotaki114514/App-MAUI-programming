@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="StudyApp.Pages.ProfilePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:StudyApp.Models">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20,18,20,36" Spacing="20">
+
+
+            <!-- Profile header  -->
+            <Border
+                BackgroundColor="{StaticResource Surface}"
+                Padding="20"
+                StrokeShape="RoundRectangle 24">
+                <HorizontalStackLayout Spacing="16">
+
+                    <!-- Avatar -->
+                    <Border
+                        BackgroundColor="{Binding AvatarColor}"
+                        HeightRequest="92"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 46"
+                        WidthRequest="92">
+                        <Grid>
+                            
+                            <!-- Custom image avatar -->
+                            <Image
+                                Aspect="AspectFill"
+                                IsVisible="{Binding HasCustomAvatar}"
+                                Source="{Binding AvatarImageSource}" />
+
+                            <!-- Emoji avatar fallback -->
+                            <Label
+                                FontSize="44"
+                                HorizontalOptions="Center"
+                                IsVisible="{Binding ShowEmojiAvatar}"
+                                Text="{Binding AvatarEmoji}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+
+
+
+                    <!-- User info -->
+                    <VerticalStackLayout Spacing="6" VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="26"
+                            Text="{Binding DisplayName}" />
+                        <Label
+                            FontSize="14"
+                            Text="{Binding UserNameText}"
+                            TextColor="{StaticResource Gray600}" />
+
+                        <!-- Local storage hint -->
+                        <Label
+                            FontSize="12"
+                            Text="{Binding DatabaseHint}"
+                            TextColor="{StaticResource Gray500}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnDatabaseHintTapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- Profile editing section -->
+            <Border
+                BackgroundColor="{StaticResource Surface}"
+                Padding="20"
+                StrokeShape="RoundRectangle 24">
+                <VerticalStackLayout Spacing="16">
+
+                    <!-- Section title -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="22"
+                        Text="Basic profile" />
+                    <Label
+                        FontSize="13"
+                        Text="Update your nickname or upload a local image as your avatar."
+                        TextColor="{StaticResource Gray600}" />
+
+
+                    <!-- Nickname input -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="Nickname" />
+                    <Border
+                        BackgroundColor="{StaticResource InputBackground}"
+                        Padding="14,8"
+                        StrokeShape="RoundRectangle 18">
+                        <Entry
+                            ClearButtonVisibility="WhileEditing"
+                            Placeholder="Enter a nickname"
+                            Text="{Binding NicknameInput}" />
+                    </Border>
+
+
+                    <!-- Avatar preview -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="Avatar" />
+                    <HorizontalStackLayout Spacing="12">
+
+
+                        <!-- Preview avatar -->
+                        <Border
+                            BackgroundColor="{Binding AvatarColor}"
+                            HeightRequest="64"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 32"
+                            WidthRequest="64">
+                            <Grid>
+                                <Image
+                                    Aspect="AspectFill"
+                                    IsVisible="{Binding HasCustomAvatar}"
+                                    Source="{Binding AvatarImageSource}" />
+                                <Label
+                                    FontSize="30"
+                                    HorizontalOptions="Center"
+                                    IsVisible="{Binding ShowEmojiAvatar}"
+                                    Text="{Binding AvatarEmoji}"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                        <VerticalStackLayout Spacing="4" VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Text="Preview" />
+                            <Label
+                                FontSize="13"
+                                Text="{Binding AvatarHintText}"
+                                TextColor="{StaticResource Gray600}" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+
+
+                    <!-- Avatar actions -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <Button
+                            Grid.Column="0"
+                            Clicked="OnUploadAvatarClicked"
+                            HeightRequest="46"
+                            Text="Upload avatar" />
+                        <Button
+                            Grid.Column="1"
+                            BackgroundColor="{StaticResource PrimarySurface}"
+                            Clicked="OnResetAvatarClicked"
+                            HeightRequest="46"
+                            IsEnabled="{Binding CanResetCustomAvatar}"
+                            Text="Reset to default"
+                            TextColor="{StaticResource PrimaryDarkText}" />
+                    </Grid>
+
+
+                    <!-- Default avatar selection -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="Default avatar style" />
+                    <Picker
+                        ItemDisplayBinding="{Binding Label}"
+                        ItemsSource="{Binding AvatarOptions}"
+                        SelectedItem="{Binding SelectedAvatar}"
+                        Title="Choose a default avatar style" />
+
+
+                    <!-- Save profile -->
+                    <Button
+                        Clicked="OnSaveProfileClicked"
+                        HeightRequest="50"
+                        Text="Save profile" />
+                </VerticalStackLayout>
+            </Border>
+
+
+            <!-- Stats section -->
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                <Border
+                    Grid.Column="0"
+                    BackgroundColor="{StaticResource PrimarySurface}"
+                    Padding="14"
+                    StrokeShape="RoundRectangle 22">
+                    <VerticalStackLayout Spacing="6">
+                        <Label FontSize="13" Text="Current streak" TextColor="{StaticResource Gray500}" />
+                        <Label FontAttributes="Bold" FontSize="22" Text="{Binding CurrentStreakText}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border
+                    Grid.Column="1"
+                    BackgroundColor="{StaticResource SurfaceAlt}"
+                    Padding="14"
+                    StrokeShape="RoundRectangle 22">
+                    <VerticalStackLayout Spacing="6">
+                        <Label FontSize="13" Text="Best streak" TextColor="{StaticResource Gray500}" />
+                        <Label FontAttributes="Bold" FontSize="22" Text="{Binding BestStreakText}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border
+                    Grid.Column="2"
+                    BackgroundColor="{StaticResource AccentSurface}"
+                    Padding="14"
+                    StrokeShape="RoundRectangle 22">
+                    <VerticalStackLayout Spacing="6">
+                        <Label FontSize="13" Text="Published notes" TextColor="{StaticResource Gray500}" />
+                        <Label FontAttributes="Bold" FontSize="22" Text="{Binding NotesCountText}" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+
+            <!-- Achievements -->
+            <VerticalStackLayout Spacing="12">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    Text="Achievements" />
+                <CollectionView
+                    HeightRequest="540"
+                    ItemsSource="{Binding Achievements}"
+                    SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:AchievementCardItem">
+                            <Border
+                                BackgroundColor="{Binding CardBackground}"
+                                Margin="0,0,0,14"
+                                Opacity="{Binding CardOpacity}"
+                                Padding="16"
+                                StrokeShape="RoundRectangle 22">
+                                <VerticalStackLayout Spacing="10">
+                                    <Label
+                                        FontSize="28"
+                                        Text="{Binding Icon}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{Binding Title}" />
+                                    <Label
+                                        FontSize="13"
+                                        Text="{Binding Description}"
+                                        TextColor="{StaticResource Gray600}" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="13"
+                                        Text="{Binding StatusText}"
+                                        TextColor="{Binding AccentColor}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+
+            <!-- Logout -->
+            <Button
+                BackgroundColor="{StaticResource Danger}"
+                Clicked="OnLogoutClicked"
+                HeightRequest="50"
+                Text="Sign out" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

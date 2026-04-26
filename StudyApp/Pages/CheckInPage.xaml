@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="StudyApp.Pages.CheckInPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:Page.UseSafeArea="True"
+    Title="Daily Check-In">
+
+    <ScrollView>
+
+        <!-- Main page container -->
+        <VerticalStackLayout Padding="20,18,20,36" Spacing="20">
+
+            <!-- Streak summary card -->
+            <Border
+                BackgroundColor="{StaticResource Surface}"
+                Padding="20"
+                StrokeShape="RoundRectangle 24">
+                <VerticalStackLayout Spacing="18">
+
+                    <!-- Top section: streak + today status -->
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+
+                        <!-- Streak info -->
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                FontSize="14"
+                                Text="Current streak"
+                                TextColor="{StaticResource Gray500}" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="28"
+                                Text="{Binding StreakHeadline}" />
+                        </VerticalStackLayout>
+
+
+                        <!-- Today status badge -->
+                        <Border
+                            BackgroundColor="{Binding TodayBadgeBackground}"
+                            Padding="12,8"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 16">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="{Binding TodayBadgeText}"
+                                TextColor="{Binding TodayBadgeTextColor}" />
+                        </Border>
+                    </Grid>
+
+                    <!-- Progress bar -->
+                    <ProgressBar
+                        HeightRequest="10"
+                        Progress="{Binding ProgressValue}" />
+
+
+                    <!-- Progress description -->
+                    <Label
+                        FontSize="14"
+                        Text="{Binding ProgressText}"
+                        TextColor="{StaticResource Gray600}" />
+
+
+                    <!-- Week view  -->
+                    <HorizontalStackLayout
+                        BindableLayout.ItemsSource="{Binding WeekDays}"
+                        HorizontalOptions="Center"
+                        Spacing="10">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+
+                                <!-- Single day card -->
+                                <Border
+                                    BackgroundColor="{Binding CardBackground}"
+                                    Padding="10,12"
+                                    Stroke="{Binding BorderColor}"
+                                    StrokeShape="RoundRectangle 18"
+                                    WidthRequest="46">
+                                    <VerticalStackLayout HorizontalOptions="Center" Spacing="6">
+
+                                        <!-- Day label -->
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="11"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding DayLabel}"
+                                            TextColor="{Binding TextColor}" />
+
+                                        <!-- Status icon -->
+                                        <Label
+                                            FontSize="18"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding StatusIcon}"
+                                            TextColor="{Binding TextColor}" />
+
+                                        <!-- Day number -->
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="12"
+                                            HorizontalTextAlignment="Center"
+                                            Text="{Binding DayNumber}"
+                                            TextColor="{Binding TextColor}" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+
+            <!-- Check-in action card -->
+            <Border
+                BackgroundColor="{StaticResource Surface}"
+                Padding="24"
+                StrokeShape="RoundRectangle 24">
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="18">
+
+                    <!-- Title -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        HorizontalTextAlignment="Center"
+                        Text="Today's study check-in" />
+
+
+
+                    <!-- Animation (shown after check-in) -->
+                    <Image
+                        x:Name="LikeAnimation"
+                        Aspect="AspectFit"
+                        HeightRequest="180"
+                        IsVisible="{Binding IsAnimationVisible}"
+                        Opacity="0"
+                        Source="like.gif" />
+
+
+                    <!-- Check-in button -->
+                    <Button
+                        BackgroundColor="{StaticResource Primary}"
+                        Clicked="OnCheckInClicked"
+                        CornerRadius="44"
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        HeightRequest="88"
+                        IsEnabled="{Binding CanCheckIn}"
+                        Text="{Binding CheckInButtonText}"
+                        WidthRequest="240" />
+
+                    <!-- Hint text -->
+                    <Label
+                        FontSize="15"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding CheckInHint}"
+                        TextColor="{StaticResource Gray600}" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="StudyApp.Pages.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:StudyApp.Models">
+
+    <Grid>
+
+        <!-- Background gradient -->
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                <GradientStop Color="#123D7A" Offset="0.0" />
+                <GradientStop Color="#2E68AF" Offset="0.18" />
+                <GradientStop Color="#6FA4E2" Offset="0.42" />
+                <GradientStop Color="#DCEBFF" Offset="0.78" />
+                <GradientStop Color="#EDF5FF" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+
+        <!-- Decorative background shapes -->
+        <Border
+            Margin="-72,-88,0,0"
+            Background="#22FFFFFF"
+            HeightRequest="220"
+            HorizontalOptions="Start"
+            StrokeThickness="0"
+            StrokeShape="RoundRectangle 110"
+            VerticalOptions="Start"
+            WidthRequest="220" />
+
+        <Border
+            Margin="0,0,-96,-84"
+            Background="#2498C6FF"
+            HeightRequest="240"
+            HorizontalOptions="End"
+            StrokeThickness="0"
+            StrokeShape="RoundRectangle 120"
+            VerticalOptions="End"
+            WidthRequest="240" />
+
+        <ScrollView>
+
+
+            <!-- Main page container -->
+            <VerticalStackLayout Padding="20,18,20,36" Spacing="20">
+                <Border
+                    HeightRequest="220"
+                    Padding="0"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 28">
+                    <Grid>
+                        
+                        <!-- Banner image -->
+                        <Image
+                            Aspect="AspectFill"
+                            Source="{Binding BannerImageSource}" />
+
+
+                        <!-- Overlay content -->
+                        <Grid BackgroundColor="#5E15324C" Padding="18">
+                            <Grid RowDefinitions="Auto,*">
+
+                                <!-- Refresh banner action -->
+                                <Button
+                                    BackgroundColor="#33FFFFFF"
+                                    Clicked="OnRefreshBannerClicked"
+                                    FontSize="12"
+                                    HorizontalOptions="End"
+                                    Padding="12,6"
+                                    Text="Refresh banner" />
+
+
+                                <!-- Banner text -->
+                                <VerticalStackLayout Grid.Row="1" Spacing="6" VerticalOptions="End">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="24"
+                                        Text="Today's study banner"
+                                        TextColor="{StaticResource White}" />
+                                    <Label
+                                        FontSize="14"
+                                        Text="A local placeholder appears first, then the random online image replaces it when ready."
+                                        TextColor="#E5E7EB" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+
+                <!-- Welcome / check-in section -->
+                <Border
+                    BackgroundColor="{StaticResource Surface}"
+                    Padding="20"
+                    StrokeShape="RoundRectangle 24">
+                    <VerticalStackLayout Spacing="14">
+
+                        <!-- Greeting -->
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                FontSize="15"
+                                Text="Welcome back"
+                                TextColor="{StaticResource Gray500}" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="28"
+                                Text="{Binding WelcomeTitle}" />
+                        </VerticalStackLayout>
+
+
+                        <!-- Today status -->
+                        <Label
+                            FontSize="15"
+                            Text="{Binding TodayStatusText}"
+                            TextColor="{Binding TodayStatusColor}" />
+
+
+                        <!-- Check-in button -->
+                        <Button
+                            Clicked="OnCheckInClicked"
+                            FontAttributes="Bold"
+                            HeightRequest="52"
+                            Text="Daily Check-In" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Stats row -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+
+                    <!-- Current streak -->
+                    <Border
+                        Grid.Column="0"
+                        BackgroundColor="{StaticResource PrimarySurface}"
+                        Padding="14"
+                        StrokeShape="RoundRectangle 22">
+                        <VerticalStackLayout Spacing="6">
+                            <Label FontSize="13" Text="Current streak" TextColor="{StaticResource Gray500}" />
+                            <Label FontAttributes="Bold" FontSize="24" Text="{Binding CurrentStreakText}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Best streak -->
+                    <Border
+                        Grid.Column="1"
+                        BackgroundColor="{StaticResource SurfaceAlt}"
+                        Padding="14"
+                        StrokeShape="RoundRectangle 22">
+                        <VerticalStackLayout Spacing="6">
+                            <Label FontSize="13" Text="Best streak" TextColor="{StaticResource Gray500}" />
+                            <Label FontAttributes="Bold" FontSize="24" Text="{Binding BestStreakText}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Notes count -->
+                    <Border
+                        Grid.Column="2"
+                        BackgroundColor="{StaticResource AccentSurface}"
+                        Padding="14"
+                        StrokeShape="RoundRectangle 22">
+                        <VerticalStackLayout Spacing="6">
+                            <Label FontSize="13" Text="My notes" TextColor="{StaticResource Gray500}" />
+                            <Label FontAttributes="Bold" FontSize="24" Text="{Binding NotesCountText}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Lecture playback section -->
+                <Border
+                    BackgroundColor="{StaticResource Surface}"
+                    Padding="20"
+                    StrokeShape="RoundRectangle 24">
+                    <VerticalStackLayout Spacing="14">
+
+                        <!-- Section title -->
+                        <Label FontSize="18" TextColor="{StaticResource Gray900}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        FontAttributes="Bold"
+                                        Text="Lecture Playback ("
+                                        TextColor="{StaticResource Gray900}" />
+                                    <Span
+                                        FontAttributes="Bold"
+                                        Text="{Binding PlaybackCount}"
+                                        TextColor="{StaticResource PrimaryDarkText}" />
+                                    <Span
+                                        FontAttributes="Bold"
+                                        Text=")"
+                                        TextColor="{StaticResource Gray900}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <!-- Horizontal video list -->
+                        <CollectionView
+                            HeightRequest="128"
+                            ItemsSource="{Binding PlaybackSection.CameraList}"
+                            SelectionMode="None">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Margin="0,0,12,0"
+                                        Padding="0"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 20"
+                                        WidthRequest="164">
+                                        <Grid>
+                                            <Image
+                                                Aspect="AspectFill"
+                                                Source="{Binding .}" />
+
+                                            <Grid BackgroundColor="#22000000" />
+
+                                            <Border
+                                                BackgroundColor="#7A15324C"
+                                                HeightRequest="42"
+                                                HorizontalOptions="Center"
+                                                Padding="0"
+                                                Stroke="{StaticResource White}"
+                                                StrokeShape="RoundRectangle 21"
+                                                StrokeThickness="1"
+                                                VerticalOptions="Center"
+                                                WidthRequest="42">
+                                                <Path
+                                                    Data="M0 0 12 7 0 14 Z"
+                                                    Fill="{StaticResource WhiteBrush}"
+                                                    HeightRequest="14"
+                                                    HorizontalOptions="Center"
+                                                    TranslationX="2"
+                                                    VerticalOptions="Center"
+                                                    WidthRequest="12" />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+
+                <!-- Notice / error list -->
+                <Border
+                    BackgroundColor="{StaticResource Surface}"
+                    Padding="20"
+                    StrokeShape="RoundRectangle 24">
+                    <VerticalStackLayout Spacing="12">
+                        <Label FontSize="18" TextColor="{StaticResource Gray900}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        FontAttributes="Bold"
+                                        Text="Important Notice ("
+                                        TextColor="{StaticResource Gray900}" />
+                                    <Span
+                                        FontAttributes="Bold"
+                                        Text="{Binding NoticeCount}"
+                                        TextColor="{StaticResource PrimaryDarkText}" />
+                                    <Span
+                                        FontAttributes="Bold"
+                                        Text=")"
+                                        TextColor="{StaticResource Gray900}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <VerticalStackLayout
+                            BindableLayout.ItemsSource="{Binding PlaybackSection.ErrorList}"
+                            Spacing="10">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:ErrorModel">
+                                    <Border
+                                        BackgroundColor="{StaticResource Gray100}"
+                                        Padding="14"
+                                        StrokeShape="RoundRectangle 20">
+                                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                            <Border
+                                                BackgroundColor="{Binding Color}"
+                                                HeightRequest="36"
+                                                Padding="0"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 18"
+                                                VerticalOptions="Center"
+                                                WidthRequest="36">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="16"
+                                                    HorizontalOptions="Center"
+                                                    Text="!"
+                                                    TextColor="{StaticResource White}"
+                                                    VerticalOptions="Center" />
+                                            </Border>
+
+                                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="15"
+                                                    Text="{Binding Header}" />
+                                                <Label
+                                                    FontSize="13"
+                                                    Text="{Binding Description}"
+                                                    TextColor="{Binding Color}" />
+                                            </VerticalStackLayout>
+
+                                            <Border
+                                                Grid.Column="2"
+                                                BackgroundColor="{StaticResource SurfaceAlt}"
+                                                Padding="12,6"
+                                                Stroke="{StaticResource Divider}"
+                                                StrokeShape="RoundRectangle 16"
+                                                VerticalOptions="Center">
+                                                <Label
+                                                    FontSize="12"
+                                                    Text="{Binding Address}"
+                                                    TextColor="{StaticResource Gray600}" />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+
+                <!-- Weekly goal -->
+                <Border
+                    BackgroundColor="{StaticResource Surface}"
+                    Padding="20"
+                    StrokeShape="RoundRectangle 24">
+                    <VerticalStackLayout Spacing="10">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="22"
+                            Text="This week's goal" />
+                        <Label
+                            FontSize="15"
+                            Text="{Binding GoalSummary}"
+                            TextColor="{StaticResource Gray600}" />
+                        <ProgressBar
+                            HeightRequest="10"
+                            Progress="{Binding WeeklyProgress}" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentView>

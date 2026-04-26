@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="StudyApp.Pages.AuthPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:Page.UseSafeArea="True"
+    NavigationPage.HasNavigationBar="False">
+
+    
+    
+    <ScrollView>
+        <!-- Main container -->
+        <VerticalStackLayout Padding="24,44,24,36" Spacing="24">
+            
+            <!-- App header section -->
+            <VerticalStackLayout Spacing="8">
+
+                <!-- Tag / badge -->
+                <Border
+                    BackgroundColor="{StaticResource PrimarySurface}"
+                    HorizontalOptions="Start"
+                    Padding="12,6"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 18">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        Text="Local study space"
+                        TextColor="{StaticResource PrimaryDarkText}" />
+                </Border>
+
+                <!-- App title -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="34"
+                    Text="StudyApp"
+                    TextColor="{StaticResource PrimaryDarkText}" />
+
+                <!-- Subtitle -->
+                <Label
+                    FontSize="16"
+                    Text="Sign in to access Home, Daily Check-In, Notes, and your profile."
+                    TextColor="{StaticResource Gray600}" />
+            </VerticalStackLayout>
+
+
+            <!-- Login / Register toggle -->
+            <Border
+                BackgroundColor="{StaticResource PrimarySurface}"
+                Padding="6"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 20">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="6">
+
+
+                    <!-- Sign in button -->
+                    <Button
+                        Grid.Column="0"
+                        BackgroundColor="{Binding LoginModeBackground}"
+                        Clicked="OnLoginModeClicked"
+                        Text="Sign In"
+                        TextColor="{Binding LoginModeTextColor}" />
+
+                    <!-- Register button -->
+                    <Button
+                        Grid.Column="1"
+                        BackgroundColor="{Binding RegisterModeBackground}"
+                        Clicked="OnRegisterModeClicked"
+                        Text="Register"
+                        TextColor="{Binding RegisterModeTextColor}" />
+                </Grid>
+            </Border>
+
+
+            <!-- Auth form -->
+            <Border
+                BackgroundColor="{StaticResource Surface}"
+                Padding="20"
+                Stroke="{StaticResource Divider}"
+                StrokeShape="RoundRectangle 28">
+                <VerticalStackLayout Spacing="18">
+
+                    <!-- Title + description -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="26"
+                            Text="{Binding ModeTitle}" />
+                        <Label
+                            FontSize="14"
+                            Text="{Binding ModeDescription}"
+                            TextColor="{StaticResource Gray500}" />
+                    </VerticalStackLayout>
+
+                    <!-- Username -->
+                    <Border
+                        BackgroundColor="{StaticResource InputBackground}"
+                        Padding="14,8"
+                        StrokeShape="RoundRectangle 18">
+                        <Entry
+                            ClearButtonVisibility="WhileEditing"
+                            Placeholder="Username"
+                            Text="{Binding UserName}" />
+                    </Border>
+
+                    <!-- Password -->
+                    <Border
+                        BackgroundColor="{StaticResource InputBackground}"
+                        Padding="14,8"
+                        StrokeShape="RoundRectangle 18">
+                        <Entry
+                            IsPassword="True"
+                            Placeholder="Password"
+                            Text="{Binding Password}" />
+                    </Border>
+
+
+                    <!-- Confirm password (register only) -->
+                    <Border
+                        BackgroundColor="{StaticResource InputBackground}"
+                        IsVisible="{Binding IsRegisterMode}"
+                        Padding="14,8"
+                        StrokeShape="RoundRectangle 18">
+                        <Entry
+                            IsPassword="True"
+                            Placeholder="Confirm password"
+                            Text="{Binding ConfirmPassword}" />
+                    </Border>
+
+
+
+                    <!-- Nickname (register only) -->
+                    <Border
+                        BackgroundColor="{StaticResource InputBackground}"
+                        IsVisible="{Binding IsRegisterMode}"
+                        Padding="14,8"
+                        StrokeShape="RoundRectangle 18">
+                        <Entry
+                            ClearButtonVisibility="WhileEditing"
+                            Placeholder="Nickname"
+                            Text="{Binding Nickname}" />
+                    </Border>
+
+
+
+                    <!-- Submit button -->
+                    <Button
+                        Clicked="OnSubmitClicked"
+                        FontAttributes="Bold"
+                        HeightRequest="52"
+                        Text="{Binding SubmitButtonText}" />
+
+
+                    <!-- Info note -->
+                    <Label
+                        FontSize="13"
+                        HorizontalTextAlignment="Center"
+                        Text="Accounts, check-ins, notes, and achievements are stored locally in database.json."
+                        TextColor="{StaticResource Gray500}" />
+                </VerticalStackLayout>
+            </Border>
+
+
+            <!-- Switch login/register mode -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+                <Label
+                    Text="{Binding SwitchPrompt}"
+                    TextColor="{StaticResource Gray500}" />
+                <Button
+                    BackgroundColor="Transparent"
+                    Clicked="OnSwitchModeClicked"
+                    Padding="0"
+                    Text="{Binding SwitchButtonText}"
+                    TextColor="{StaticResource Primary}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

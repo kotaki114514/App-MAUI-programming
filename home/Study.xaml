@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StudyApp.Views.Study"
+             xmlns:vm="clr-namespace:StudyApp.ViewModels"
+             Title="Study"
+             Background="#EEE">
+    
+    
+
+    
+<ContentPage.BindingContext>
+    <vm:PlaybackModel/>
+</ContentPage.BindingContext>
+<VerticalStackLayout>
+        <VerticalStackLayout.Background >
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="DeepSkyBlue" Offset="0"/>
+                <GradientStop Color="White" Offset="0.4"/>
+            </LinearGradientBrush>
+        </VerticalStackLayout.Background>
+        <HorizontalStackLayout HeightRequest="30" Margin="10,10,10,0">
+            <Image Source="icon.png" Margin="5,0"/>
+            <Label Text ="Mark your progress"
+                   VerticalOptions="Center"
+                   TextColor="White"
+                   FontSize="18"
+                   FontAttributes="Bold"/>
+            
+        </HorizontalStackLayout>
+    
+    
+    
+    
+        <Frame HeightRequest="170" HasShadow="True" CornerRadius="15" Padding="0"
+               Margin="10">
+            <Image Source="quote.png" Aspect="Fill"/>
+        </Frame>
+        <Label
+               TextColor="Black"
+               Margin="15,10" 
+               HorizontalOptions="Start">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Lecture Playback("
+                          FontAttributes="Bold"
+                          TextColor="Black"/>
+                    <Span Text="{Binding CameraList.Count}"
+                          FontAttributes="Bold"
+                          TextColor="Black"/>
+                    <Span Text=")"
+                          FontAttributes="Bold"
+                          TextColor="Black"/>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+    
+    
+    <!--回放部分正文-->
+    
+        <CollectionView ItemsSource="{Binding CameraList}" HeightRequest="90">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="0" HasShadow="True"
+                           CornerRadius="10"
+                           Margin="4"
+                           BorderColor="Transparent"
+                           WidthRequest="120">
+                        <Grid>
+                      <Image Source="{Binding}" Aspect="AspectFill"/>
+                            <Ellipse WidthRequest="26"
+                                     HeightRequest="26"
+                                     Fill="#66000000"
+                                     Stroke="White"
+                                     StrokeThickness="1"
+                                     VerticalOptions="Center"
+                                     HorizontalOptions="Center"/>
+                            <Path Data="M0 0 12 6 0 12"
+                                  Fill="White"
+                                  VerticalOptions="Center"
+                                  Margin="1,0,0,0"
+                                  HorizontalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+            <!--提醒部分标题-->
+        <Label
+         TextColor="Black"
+         Margin="15,10" 
+         HorizontalOptions="Start">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Important Notice ("
+                    FontAttributes="Bold"
+                    TextColor="Black"/>
+                    <Span Text="{Binding ErrorList.Count}"
+                    FontAttributes="Bold"
+                    TextColor="Black"/>
+                    <Span Text=")"
+                    FontAttributes="Bold"
+                    TextColor="Black"/>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+    
+            <!--提醒部分正文-->
+    
+        <CollectionView ItemsSource="{Binding ErrorList}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="0" Background="White" 
+                           CornerRadius="10"
+                           BorderColor="Transparent" 
+                           Margin="15,5" 
+                           HeightRequest="65">
+                        <Grid ColumnDefinitions="40,*,0.8*">
+                            <Path Data="M12,2 C10.343,2 9,3.343 9,5 L9,7 C6.243,7 4,9.243 4,12 L4,17 L2,19 L2,20 L22,20 L22,19 L20,17 L20,12 C20,9.243 17.757,7 15,7 L15,5 C15,3.343 13.657,2 12,2 Z M12,22 C13.104,22 14,21.104 14,20 L10,20 C10,21.104 10.896,22 12,22 Z"
+                                  WidthRequest="25" 
+                                  HeightRequest="25"
+                                  Aspect="Fill">
+                                
+                                <Path.Fill>
+                                    <SolidColorBrush Color="{Binding Color}"/>
+                                </Path.Fill>
+                                
+                            </Path>
+                            <StackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="{Binding Header}"
+                                       FontAttributes="Bold"
+                                       FontSize="15"/>
+                                <Label Text="{Binding Description}"
+                                       FontSize="12" 
+                                       TextColor="{Binding Color}"/>
+                            </StackLayout>
+
+                            <Frame Grid.Column="2"
+                                   HeightRequest="33"
+                                   CornerRadius="16"
+                                   Padding="0"
+                                   Margin="5,0"
+                                   BorderColor="#E4EFF1"
+                                   Background="#F2F7FC">
+                                <StackLayout Orientation="Horizontal">
+                                    <Path Fill="#72848A"
+                                          Data="M12,2 C8.13,2 5,5.13 5,9 C5,14.25 12,22 12,22 C12,22 19,14.25 19,9 C19,5.13 15.87,2 12,2 Z M12,11.5 C10.62,11.5 9.5,10.38 9.5,9 C9.5,7.62 10.62,6.5 12,6.5 C13.38,6.5 14.5,7.62 14.5,9 C14.5,10.38 13.38,11.5 12,11.5 Z"
+                                          WidthRequest="18"
+                                          HeightRequest="18"
+                                          Aspect="Uniform"/>
+                                    <Label Text="{Binding Address}"
+                                           VerticalOptions="Center"
+                                           FontSize="12"/>
+
+                                </StackLayout>
+                            </Frame>
+                            
+                        </Grid>
+                        
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+        <Grid ColumnDefinitions="*,80,auto" 
+              RowDefinitions="*,*"
+              HeightRequest="50"
+              Margin="15,10">
+            <Label Text="Everyday Check-In" FontAttributes="Bold"
+                   TextColor="DimGray"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start"
+                   />
+            <Label Text="Check-In Time: From 8AM Weekdays "
+                   Grid.Row="1"
+                   FontSize="12"
+                   TextColor="DarkGrey"/>
+
+            <Frame  Grid.Column="1"
+                    Grid.RowSpan="2"
+                    HeightRequest="33"
+                    Padding="0"
+                    CornerRadius="16">
+                <Button Text="Check-In" 
+                        FontSize="12"
+                        Margin="0,-3,0,0"
+                        Background="CadetBlue"/>
+            </Frame>
+            
+            <Frame  Grid.Column="2"
+                    Grid.RowSpan="2"
+                    HeightRequest="33"
+                    WidthRequest="80"
+                    Margin="3,0"
+                    Padding="0"
+                    CornerRadius="16">
+                
+                <Button Text="Calender" 
+                        FontSize="12"
+                        Margin="0,-3,0,0"
+                        Background="#6495ED"/>
+            </Frame>
+        </Grid>
+            
+
+
+
+
+
+    </VerticalStackLayout>
+</ContentPage>

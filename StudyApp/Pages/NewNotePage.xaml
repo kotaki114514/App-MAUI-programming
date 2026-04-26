@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="StudyApp.Pages.NewNotePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:Page.UseSafeArea="True"
+    Title="New Note">
+
+    <ScrollView>
+
+        <!-- Main container -->
+        <VerticalStackLayout Padding="20,18,20,28" Spacing="18">
+
+
+            <!-- Note form card -->
+            <Border
+                BackgroundColor="{StaticResource Surface}"
+                Padding="20"
+                StrokeShape="RoundRectangle 24">
+                <VerticalStackLayout Spacing="16">
+
+                    <!-- Page title -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        Text="{Binding HeaderText}" />
+
+
+                    <!-- Note title input -->
+                    <Border
+                        BackgroundColor="{StaticResource InputBackground}"
+                        Padding="14,8"
+                        StrokeShape="RoundRectangle 18">
+                        <Entry
+                            ClearButtonVisibility="WhileEditing"
+                            Placeholder="Note title"
+                            Text="{Binding NoteTitle}" />
+                    </Border>
+
+
+                    <!-- Note content input -->
+                    <Border
+                        BackgroundColor="{StaticResource InputBackground}"
+                        Padding="14,10"
+                        StrokeShape="RoundRectangle 18">
+                        <Editor
+                            AutoSize="TextChanges"
+                            HeightRequest="220"
+                            Placeholder="Write what you learned, noticed, or want to remember."
+                            Text="{Binding NoteContent}" />
+                    </Border>
+
+
+                    <!-- Helper text -->
+                    <Label
+                        FontSize="13"
+                        Text="{Binding HintText}"
+                        TextColor="{StaticResource Gray500}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Action buttons -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+
+                <!-- Cancel button -->
+                <Button
+                    Grid.Column="0"
+                    BackgroundColor="{StaticResource PrimarySurface}"
+                    Clicked="OnCancelClicked"
+                    Text="Cancel"
+                    TextColor="{StaticResource PrimaryDarkText}" />
+
+                <!-- Save button -->
+                <Button
+                    Grid.Column="1"
+                    Clicked="OnSaveClicked"
+                    Text="{Binding SaveButtonText}" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

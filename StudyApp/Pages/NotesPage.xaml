@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="StudyApp.Pages.NotesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:StudyApp.Models">
+
+
+    <!-- Main layout -->
+    <Grid Padding="20,18,20,24" RowDefinitions="Auto,Auto,*" RowSpacing="18">
+
+        <!-- Header / create section -->
+        <Border
+            BackgroundColor="{StaticResource Surface}"
+            Padding="20"
+            StrokeShape="RoundRectangle 24">
+            <VerticalStackLayout Spacing="14">
+
+                <!-- Title + count -->
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="24"
+                        Text="My notes" />
+                    <Label
+                        FontSize="15"
+                        Text="{Binding NotesCountText}"
+                        TextColor="{StaticResource Gray600}" />
+                </VerticalStackLayout>
+
+                <!-- Create note button -->
+                <Button
+                    BackgroundColor="{StaticResource Primary}"
+                    Clicked="OnPublishNoteClicked"
+                    FontAttributes="Bold"
+                    HeightRequest="46"
+                    HorizontalOptions="Fill"
+                    Text="Create note" />
+            </VerticalStackLayout>
+        </Border>
+
+
+        <!-- Search bar -->
+        <Border
+            Grid.Row="1"
+            BackgroundColor="{StaticResource Surface}"
+            Padding="8,2"
+            StrokeShape="RoundRectangle 20">
+            <SearchBar
+                Placeholder="Search notes by title or content"
+                Text="{Binding SearchText, Mode=TwoWay}" />
+        </Border>
+
+        <!-- Notes list -->
+
+        <CollectionView
+            Grid.Row="2"
+            ItemsSource="{Binding Notes}"
+            SelectionMode="None">
+            <CollectionView.EmptyView>
+
+
+                <!-- Empty state -->
+                <Border
+                    BackgroundColor="{StaticResource SurfaceAlt}"
+                    Padding="24"
+                    StrokeShape="RoundRectangle 24">
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+                        <Label FontSize="42" HorizontalTextAlignment="Center" Text="&#x1F4DD;" />
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding EmptyStateTitle}" />
+                        <Label
+                            FontSize="14"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding EmptyStateMessage}"
+                            TextColor="{StaticResource Gray600}" />
+                    </VerticalStackLayout>
+                </Border>
+            </CollectionView.EmptyView>
+
+
+            <!-- Note item template -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:NoteRecord">
+                    <Border
+                        BackgroundColor="{StaticResource Surface}"
+                        Margin="0,0,0,14"
+                        Padding="18"
+                        StrokeShape="RoundRectangle 22">
+                        <VerticalStackLayout Spacing="12">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{Binding Title}" />
+                            <Label
+                                FontSize="14"
+                                LineBreakMode="WordWrap"
+                                MaxLines="4"
+                                Text="{Binding ContentPreview}"
+                                TextColor="{StaticResource Gray600}" />
+
+
+                            <!-- Footer (date + actions) -->
+                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+
+                                <!-- Created time -->
+                                <Label
+                                    FontSize="12"
+                                    Text="{Binding CreatedAtText}"
+                                    TextColor="{StaticResource Gray500}"
+                                    VerticalOptions="Center" />
+
+                                <!-- Edit button -->
+                                <Button
+                                    Grid.Column="1"
+                                    BackgroundColor="{StaticResource PrimarySurface}"
+                                    Clicked="OnEditNoteClicked"
+                                    CommandParameter="{Binding .}"
+                                    FontSize="13"
+                                    HeightRequest="36"
+                                    Padding="14,0"
+                                    Text="Edit"
+                                    TextColor="{StaticResource PrimaryDarkText}" />
+
+                                <!-- Delete button -->
+                                <Button
+                                    Grid.Column="2"
+                                    BackgroundColor="{StaticResource DangerSurface}"
+                                    Clicked="OnDeleteNoteClicked"
+                                    CommandParameter="{Binding .}"
+                                    FontSize="13"
+                                    HeightRequest="36"
+                                    Padding="14,0"
+                                    Text="Delete"
+                                    TextColor="{StaticResource DangerText}" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentView>
